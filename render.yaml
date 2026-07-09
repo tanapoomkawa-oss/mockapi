@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: fundup-mock-api
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: FUNDUP_MOCK_API_KEY
+        generateValue: true

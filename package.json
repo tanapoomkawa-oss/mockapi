@@ -1,0 +1,10 @@
+{
+  "name": "fundup-mock-api",
+  "version": "1.0.0",
+  "description": "Local mock of the Fundup AI API (v1.4.0), backed by a real dumped dataset.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT"
+}
