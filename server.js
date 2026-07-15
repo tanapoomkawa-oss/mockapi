@@ -2,6 +2,10 @@
 // (a real dump taken from GET /fundings). Mirrors the routes, query params,
 // pagination envelope, auth, and error shapes documented at
 // https://fundup.ai/api/docs/openapi.json — see README.md for known gaps.
+//
+// Also includes a mock of PitchBook's Company Search / Company Bio /
+// Company Deals / Deal Detail endpoints under /pitchbook/*, using the same
+// auth, error shapes, and dispatcher as the routes above.
 
 const http = require('http');
 const fs = require('fs');
@@ -66,6 +70,65 @@ const filterData = (() => {
     technologyOptions: [],
   };
 })();
+
+// ---------------------------------------------------------------------------
+// PitchBook mock data
+// ---------------------------------------------------------------------------
+
+const pitchbookCompanies = [
+  {
+    companyId: '300001-11',
+    companyName: { formalName: 'Solara Grid Systems', alsoKnownAs: 'Solara' },
+    hqLocation: { city: 'Austin', stateProvince: 'Texas', country: 'United States' },
+    description: 'Developer of utility-scale solar tracking systems and grid integration software for renewable energy operators.',
+    sicCodes: [{ code: '3674', description: 'Solar power generation' }],
+    companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/solara-grid' },
+  },
+  {
+    companyId: '300002-22',
+    companyName: { formalName: 'CarbonForge Technologies' },
+    hqLocation: { city: 'Rotterdam', country: 'Netherlands' },
+    description: 'Direct air capture and CO2 mineralization technology for industrial decarbonization applications.',
+    sicCodes: [{ code: '2819', description: 'Industrial inorganic chemicals' }],
+    companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/carbonforge' },
+  },
+  {
+    companyId: '300003-33',
+    companyName: 'GridPulse',
+    hqLocation: null,
+    description: 'Smart grid monitoring startup.',
+    sicCodes: [],
+    companySocialURLs: {},
+  },
+];
+
+const pitchbookDeals = [
+  {
+    dealId: '500001-01T', companyId: '300001-11', dealDate: '2026-07-08',
+    dealSize: { amount: 12000000, currency: 'USD' },
+    dealType1: { code: 'EVC', description: 'Early Stage VC' },
+    vcRound: 'Series A',
+    dealSynopsis: 'The company raised $12M in a Series A round led by Breakthrough Energy Ventures.',
+  },
+  {
+    dealId: '500001-02T', companyId: '300001-11', dealDate: '2026-07-10',
+    dealSize: { amount: 3000000, currency: 'USD' },
+    dealType1: { code: 'Debt', description: 'Debt - General' },
+    vcRound: null,
+    dealSynopsis: 'The company received a $3M venture debt facility from Trinity Capital.',
+  },
+  {
+    dealId: '500002-01T', companyId: '300002-22', dealDate: '2026-07-09',
+    dealSize: { amount: 45000000, currency: 'EUR' },
+    dealType1: { code: 'LVC', description: 'Later Stage VC' },
+    vcRound: 'Series C',
+    dealSynopsis: 'The company raised €45M in a Series C round to scale its DAC facility.',
+  },
+  {
+    dealId: '500003-01T', companyId: '300003-33', dealDate: '2026-07-11',
+    dealSize: null, dealType1: null, vcRound: 'Seed', dealSynopsis: null,
+  },
+];
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -475,6 +538,38 @@ function handleStats(req, res) {
 }
 
 // ---------------------------------------------------------------------------
+// PitchBook route handlers
+// ---------------------------------------------------------------------------
+
+function handlePitchbookCompanySearch(req, res) {
+  const items = pitchbookCompanies.map((c) => ({
+    companyId: c.companyId,
+    companyName: typeof c.companyName === 'string' ? c.companyName : c.companyName.formalName,
+    website: `www.${c.companyId}.com`,
+  }));
+  sendJson(res, 200, { stats: { total: items.length, perPage: 25, page: 1, lastPage: 1 }, items });
+}
+
+function handlePitchbookCompanyBio(req, res, companyId) {
+  const company = pitchbookCompanies.find((c) => c.companyId === companyId);
+  if (!company) throw new ApiError(404, { error: 'Company not found' });
+  sendJson(res, 200, company);
+}
+
+function handlePitchbookCompanyDeals(req, res, companyId) {
+  const companyDeals = pitchbookDeals
+    .filter((d) => d.companyId === companyId)
+    .map((d) => ({ dealId: d.dealId, companyId: d.companyId, dealDate: d.dealDate, dealType1: d.dealType1 }));
+  sendJson(res, 200, companyDeals);
+}
+
+function handlePitchbookDealDetail(req, res, dealId) {
+  const deal = pitchbookDeals.find((d) => d.dealId === dealId);
+  if (!deal) throw new ApiError(404, { error: 'Deal not found' });
+  sendJson(res, 200, deal);
+}
+
+// ---------------------------------------------------------------------------
 // Router
 // ---------------------------------------------------------------------------
 
@@ -562,6 +657,18 @@ const server = http.createServer((req, res) => {
       } else {
         throw new ApiError(404, { error: 'Not found' });
       }
+    } else if (parts[0] === 'pitchbook' && parts[1] === 'company' && parts[2] === 'search' && parts.length === 3) {
+      handlePitchbookCompanySearch(req, res);
+      recordSuccess(API_KEY, 'get_pitchbook_company_search');
+    } else if (parts[0] === 'pitchbook' && parts[1] === 'company' && parts.length === 3) {
+      handlePitchbookCompanyBio(req, res, decodeURIComponent(parts[2]));
+      recordSuccess(API_KEY, 'get_pitchbook_company_bio');
+    } else if (parts[0] === 'pitchbook' && parts[1] === 'company' && parts.length === 4 && parts[3] === 'deals') {
+      handlePitchbookCompanyDeals(req, res, decodeURIComponent(parts[2]));
+      recordSuccess(API_KEY, 'get_pitchbook_company_deals');
+    } else if (parts[0] === 'pitchbook' && parts[1] === 'deal' && parts.length === 3) {
+      handlePitchbookDealDetail(req, res, decodeURIComponent(parts[2]));
+      recordSuccess(API_KEY, 'get_pitchbook_deal_detail');
     } else {
       throw new ApiError(404, { error: 'Not found' });
     }
