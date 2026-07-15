@@ -541,12 +541,29 @@ function handleStats(req, res) {
 // PitchBook route handlers
 // ---------------------------------------------------------------------------
 
-function handlePitchbookCompanySearch(req, res) {
-  const items = pitchbookCompanies.map((c) => ({
-    companyId: c.companyId,
-    companyName: typeof c.companyName === 'string' ? c.companyName : c.companyName.formalName,
-    website: `www.${c.companyId}.com`,
-  }));
+function handlePitchbookCompanySearch(req, res, searchParams) {
+  const dealDateParam = searchParams.get('dealDate'); // e.g. ">2026-07-01"
+
+  let matchingCompanyIds = new Set(pitchbookCompanies.map((c) => c.companyId));
+
+  if (dealDateParam) {
+    const op = dealDateParam[0]; // '>' or '<'
+    const dateVal = dealDateParam.slice(1);
+    matchingCompanyIds = new Set(
+      pitchbookDeals
+        .filter((d) => (op === '>' ? d.dealDate >= dateVal : d.dealDate <= dateVal))
+        .map((d) => d.companyId)
+    );
+  }
+
+  const items = pitchbookCompanies
+    .filter((c) => matchingCompanyIds.has(c.companyId))
+    .map((c) => ({
+      companyId: c.companyId,
+      companyName: typeof c.companyName === 'string' ? c.companyName : c.companyName.formalName,
+      website: `www.${c.companyId}.com`,
+    }));
+
   sendJson(res, 200, { stats: { total: items.length, perPage: 25, page: 1, lastPage: 1 }, items });
 }
 
@@ -658,7 +675,7 @@ const server = http.createServer((req, res) => {
         throw new ApiError(404, { error: 'Not found' });
       }
     } else if (parts[0] === 'pitchbook' && parts[1] === 'company' && parts[2] === 'search' && parts.length === 3) {
-      handlePitchbookCompanySearch(req, res);
+      handlePitchbookCompanySearch(req, res, sp);
       recordSuccess(API_KEY, 'get_pitchbook_company_search');
     } else if (parts[0] === 'pitchbook' && parts[1] === 'company' && parts.length === 3) {
       handlePitchbookCompanyBio(req, res, decodeURIComponent(parts[2]));
