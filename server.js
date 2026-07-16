@@ -546,14 +546,15 @@ function handleStats(req, res) {
 // ---------------------------------------------------------------------------
 
 function handlePitchbookCompanySearch(req, res, searchParams) {
-  const dealDateParam = searchParams.get('dealDate'); // e.g. ">2026-07-08", "<2026-07-09", or "2026-07-08^2026-07-10"
+  const dealDateParam = searchParams.get('dealDate');
+  const page = Number(searchParams.get('page') ?? 1);
+  const perPage = Number(searchParams.get('perPage') ?? 25);
 
   let matchingCompanyIds = new Set(pitchbookCompanies.map((c) => c.companyId));
 
   if (dealDateParam) {
     let lowerBound = null;
     let upperBound = null;
-
     if (dealDateParam.includes('^')) {
       const [start, end] = dealDateParam.split('^');
       lowerBound = start;
@@ -563,7 +564,6 @@ function handlePitchbookCompanySearch(req, res, searchParams) {
     } else if (dealDateParam[0] === '<') {
       upperBound = dealDateParam.slice(1);
     }
-
     matchingCompanyIds = new Set(
       pitchbookDeals
         .filter((d) => {
@@ -575,7 +575,7 @@ function handlePitchbookCompanySearch(req, res, searchParams) {
     );
   }
 
-  const items = pitchbookCompanies
+  const allMatches = pitchbookCompanies
     .filter((c) => matchingCompanyIds.has(c.companyId))
     .map((c) => ({
       companyId: c.companyId,
@@ -583,7 +583,12 @@ function handlePitchbookCompanySearch(req, res, searchParams) {
       website: `www.${c.companyId}.com`,
     }));
 
-  sendJson(res, 200, { stats: { total: items.length, perPage: 25, page: 1, lastPage: 1 }, items });
+  const total = allMatches.length;
+  const lastPage = Math.max(1, Math.ceil(total / perPage));
+  const startIdx = (page - 1) * perPage;
+  const items = allMatches.slice(startIdx, startIdx + perPage);
+
+  sendJson(res, 200, { stats: { total, perPage, page, lastPage }, items });
 }
 
 function handlePitchbookCompanyBio(req, res, companyId) {
