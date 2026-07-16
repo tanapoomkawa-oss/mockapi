@@ -542,16 +542,31 @@ function handleStats(req, res) {
 // ---------------------------------------------------------------------------
 
 function handlePitchbookCompanySearch(req, res, searchParams) {
-  const dealDateParam = searchParams.get('dealDate'); // e.g. ">2026-07-01"
+  const dealDateParam = searchParams.get('dealDate'); // e.g. ">2026-07-08", "<2026-07-09", or "2026-07-08^2026-07-10"
 
   let matchingCompanyIds = new Set(pitchbookCompanies.map((c) => c.companyId));
 
   if (dealDateParam) {
-    const op = dealDateParam[0]; // '>' or '<'
-    const dateVal = dealDateParam.slice(1);
+    let lowerBound = null;
+    let upperBound = null;
+
+    if (dealDateParam.includes('^')) {
+      const [start, end] = dealDateParam.split('^');
+      lowerBound = start;
+      upperBound = end;
+    } else if (dealDateParam[0] === '>') {
+      lowerBound = dealDateParam.slice(1);
+    } else if (dealDateParam[0] === '<') {
+      upperBound = dealDateParam.slice(1);
+    }
+
     matchingCompanyIds = new Set(
       pitchbookDeals
-        .filter((d) => (op === '>' ? d.dealDate >= dateVal : d.dealDate <= dateVal))
+        .filter((d) => {
+          if (lowerBound && d.dealDate < lowerBound) return false;
+          if (upperBound && d.dealDate > upperBound) return false;
+          return true;
+        })
         .map((d) => d.companyId)
     );
   }
