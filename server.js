@@ -76,58 +76,62 @@ const filterData = (() => {
 // ---------------------------------------------------------------------------
 
 const pitchbookCompanies = [
-  {
-    companyId: '300001-11',
-    companyName: { formalName: 'Solara Grid Systems', alsoKnownAs: 'Solara' },
-    hqLocation: { city: 'Austin', stateProvince: 'Texas', country: 'United States' },
-    description: 'Developer of utility-scale solar tracking systems and grid integration software for renewable energy operators.',
-    sicCodes: [{ code: '3674', description: 'Solar power generation' }],
-    companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/solara-grid' },
-  },
-  {
-    companyId: '300002-22',
-    companyName: { formalName: 'CarbonForge Technologies' },
-    hqLocation: { city: 'Rotterdam', country: 'Netherlands' },
-    description: 'Direct air capture and CO2 mineralization technology for industrial decarbonization applications.',
-    sicCodes: [{ code: '2819', description: 'Industrial inorganic chemicals' }],
-    companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/carbonforge' },
-  },
-  {
-    companyId: '300003-33',
-    companyName: 'GridPulse',
-    hqLocation: null,
-    description: 'Smart grid monitoring startup.',
-    sicCodes: [],
-    companySocialURLs: {},
-  },
+  // --- 2026-07-10 ---
+  { companyId: '300001-11', companyName: { formalName: 'Solara Grid Systems' }, hqLocation: { city: 'Austin', country: 'United States' }, description: 'Developer of utility-scale solar tracking systems and grid integration software for renewable energy operators.', website: 'www.solaragrid.com', sicCodes: [{ code: '3674', description: 'Solar power generation' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/solara-grid' } },
+  { companyId: '300002-22', companyName: { formalName: 'CarbonForge Technologies' }, hqLocation: { city: 'Rotterdam', country: 'Netherlands' }, description: 'Direct air capture and CO2 mineralization technology for industrial decarbonization applications.', website: 'www.carbonforge.com', sicCodes: [{ code: '2819', description: 'Industrial inorganic chemicals' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/carbonforge' } },
+  { companyId: '300003-33', companyName: 'GridPulse', hqLocation: null, description: 'Smart grid monitoring startup.', website: null, sicCodes: [], companySocialURLs: {} },
+  { companyId: '300004-44', companyName: { formalName: 'Vireon Fuel Cells' }, hqLocation: { city: 'Munich', country: 'Germany' }, description: 'Manufacturer of hydrogen fuel cell stacks for commercial trucking and marine applications.', website: 'www.vireonfuelcells.com', sicCodes: [{ code: '3674', description: 'Semiconductors & related devices' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/vireon' } },
+
+  // --- 2026-07-11 ---
+  { companyId: '300005-55', companyName: { formalName: 'Meridian Micro Reactors' }, hqLocation: { city: 'Cambridge', country: 'United States' }, description: 'Designer of compact modular fission reactors under 300MWe for industrial and grid-scale deployment, with a fuel-cycle partnership for enriched uranium supply.', website: 'www.meridianmicro.com', sicCodes: [{ code: '3670', description: 'Electronic components & accessories' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/meridian-micro-reactors' } },
+  { companyId: '300006-66', companyName: { formalName: 'Thermafuse Fusion Energy' }, hqLocation: { city: 'Oxford', country: 'United Kingdom' }, description: 'Developer of compact tokamak fusion reactors targeting commercial grid power by the early 2030s.', website: 'www.thermafuse.com', sicCodes: [{ code: '3670', description: 'Electronic components & accessories' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/thermafuse' } },
+  { companyId: '300007-77', companyName: { formalName: 'Bexley Battery Storage' }, hqLocation: { city: 'Denver', country: 'United States' }, description: 'Owns and operates utility-scale battery storage assets paired with renewable generation projects across the western United States.', website: 'www.bexleystorage.com', sicCodes: [{ code: '3691', description: 'Storage batteries' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/bexley-storage' } },
+  { companyId: '300008-88', companyName: { formalName: 'Nurovia Diagnostics' }, hqLocation: { city: 'Boston', country: 'United States' }, description: 'Developer of AI-powered diagnostic imaging software for early-stage cancer detection.', website: 'www.nurovia.com', sicCodes: [{ code: '8071', description: 'Medical laboratories' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/nurovia' } },
+
+  // --- 2026-07-12 ---
+  { companyId: '300009-99', companyName: { formalName: 'Vinaverde Biorefining' }, hqLocation: { city: 'São Paulo', country: 'Brazil' }, description: 'Converts sugarcane vinasse byproduct into biogas and biofertilizer through anaerobic digestion, reducing waste-disposal costs for ethanol producers.', website: 'www.vinaverde.com.br', sicCodes: [{ code: '2869', description: 'Industrial organic chemicals' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/vinaverde' } },
+  { companyId: '300010-10', companyName: { formalName: 'Hexagrid Analytics' }, hqLocation: { city: 'Berlin', country: 'Germany' }, description: 'Distributed energy resource management and peer-to-peer energy trading platform for utilities and microgrid operators.', website: 'www.hexagrid.io', sicCodes: [{ code: '7372', description: 'Prepackaged software' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/hexagrid' } },
+  { companyId: '300011-20', companyName: { formalName: 'Circuvolt Charging' }, hqLocation: { city: 'Amsterdam', country: 'Netherlands' }, description: 'Operator of fast-charging EV infrastructure networks across European highway corridors.', website: 'www.circuvolt.com', sicCodes: [{ code: '5511', description: 'Motor vehicle dealers' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/circuvolt' } },
+  { companyId: '300012-30', companyName: { formalName: 'Lentari Capital Solar' }, hqLocation: { city: 'Singapore', country: 'Singapore' }, description: 'Provides financing and leasing solutions for residential and commercial solar installations across Southeast Asia.', website: 'www.lentaricapital.com', sicCodes: [{ code: '6159', description: 'Federal and federally-sponsored credit agencies' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/lentari-capital' } },
+
+  // --- 2026-07-13 ---
+  { companyId: '300013-40', companyName: { formalName: 'Aventerra CCUS' }, hqLocation: { city: 'Calgary', country: 'Canada' }, description: 'Provider of modular carbon capture equipment and geological CO2 storage infrastructure for heavy industry.', website: 'www.aventerraccus.com', sicCodes: [{ code: '1389', description: 'Oil & gas field services' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/aventerra' } },
+  { companyId: '300014-50', companyName: { formalName: 'Solvantis Panels' }, hqLocation: { city: 'Madrid', country: 'Spain' }, description: 'Manufacturer of bifacial photovoltaic modules and floating solar array systems for utility-scale deployment.', website: 'www.solvantis.com', sicCodes: [{ code: '3674', description: 'Solar power generation' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/solvantis' } },
+  { companyId: '300015-60', companyName: { formalName: 'Windforge Renewables' }, hqLocation: { city: 'Aarhus', country: 'Denmark' }, description: 'Developer and operator of offshore wind farm projects across Northern Europe.', website: 'www.windforge.dk', sicCodes: [{ code: '4911', description: 'Electric services' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/windforge' } },
+  { companyId: '300016-70', companyName: { formalName: 'Isoterra Geothermal' }, hqLocation: { city: 'Reykjavik', country: 'Iceland' }, description: 'Developer of enhanced geothermal systems for baseload renewable power generation.', website: 'www.isoterra.is', sicCodes: [{ code: '4911', description: 'Electric services' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/isoterra' } },
+
+  // --- 2026-07-14 ---
+  { companyId: '300017-80', companyName: { formalName: 'Ferronova Robotics' }, hqLocation: { city: 'Seoul', country: 'South Korea' }, description: 'Developer of industrial automation robotics and predictive maintenance software for manufacturing plants.', website: 'www.ferronova.kr', sicCodes: [{ code: '3559', description: 'Special industry machinery' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/ferronova' } },
+  { companyId: '300018-90', companyName: { formalName: 'Kestrel SMR Partners' }, hqLocation: { city: 'Bristol', country: 'United Kingdom' }, description: 'Developer of small modular reactor designs and off-take partnerships for grid-integration with utility customers.', website: 'www.kestrelsmr.com', sicCodes: [{ code: '3670', description: 'Electronic components & accessories' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/kestrel-smr' } },
+  { companyId: '300019-00', companyName: { formalName: 'Molassera Biofuels' }, hqLocation: { city: 'Mumbai', country: 'India' }, description: 'Converts molasses and second-generation sugarcane feedstock into advanced biofuels and animal feed, reducing waste-disposal costs for regional producers.', website: 'www.molassera.in', sicCodes: [{ code: '2869', description: 'Industrial organic chemicals' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/molassera' } },
+  { companyId: '300020-01', companyName: { formalName: 'Vantablock Data Centers' }, hqLocation: { city: 'Dublin', country: 'Ireland' }, description: 'Operator of liquid-cooled hyperscale data center facilities for AI compute workloads.', website: 'www.vantablock.com', sicCodes: [{ code: '7374', description: 'Computer processing & data prep' }], companySocialURLs: { linkedInProfileUrl: 'https://www.linkedin.com/company/vantablock' } },
 ];
 
 const pitchbookDeals = [
-  {
-    dealId: '500001-01T', companyId: '300001-11', dealDate: '2026-07-08',
-    dealSize: { amount: 12000000, currency: 'USD' },
-    dealType1: { code: 'EVC', description: 'Early Stage VC' },
-    vcRound: 'Series A',
-    dealSynopsis: 'The company raised $12M in a Series A round led by Breakthrough Energy Ventures.',
-  },
-  {
-    dealId: '500001-02T', companyId: '300001-11', dealDate: '2026-07-10',
-    dealSize: { amount: 3000000, currency: 'USD' },
-    dealType1: { code: 'Debt', description: 'Debt - General' },
-    vcRound: null,
-    dealSynopsis: 'The company received a $3M venture debt facility from Trinity Capital.',
-  },
-  {
-    dealId: '500002-01T', companyId: '300002-22', dealDate: '2026-07-09',
-    dealSize: { amount: 45000000, currency: 'EUR' },
-    dealType1: { code: 'LVC', description: 'Later Stage VC' },
-    vcRound: 'Series C',
-    dealSynopsis: 'The company raised €45M in a Series C round to scale its DAC facility.',
-  },
-  {
-    dealId: '500003-01T', companyId: '300003-33', dealDate: '2026-07-11',
-    dealSize: null, dealType1: null, vcRound: 'Seed', dealSynopsis: null,
-  },
+  { dealId: '500001-01T', companyId: '300001-11', dealDate: '2026-07-10', dealSize: { amount: 12000000, currency: 'USD' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised $12M in a Series A round led by Breakthrough Energy Ventures.' },
+  { dealId: '500002-01T', companyId: '300002-22', dealDate: '2026-07-10', dealSize: { amount: 45000000, currency: 'EUR' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series C', dealSynopsis: 'The company raised €45M in a Series C round to scale its DAC facility.' },
+  { dealId: '500003-01T', companyId: '300003-33', dealDate: '2026-07-10', dealSize: null, dealType1: null, vcRound: 'Seed', dealSynopsis: null },
+  { dealId: '500004-01T', companyId: '300004-44', dealDate: '2026-07-10', dealSize: { amount: 18000000, currency: 'EUR' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised €18M in a Series A round to scale fuel cell manufacturing.' },
+
+  { dealId: '500005-01T', companyId: '300005-55', dealDate: '2026-07-11', dealSize: { amount: 38000000, currency: 'USD' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series B', dealSynopsis: 'The company raised $38M in a Series B round to fund its first commercial reactor pilot.' },
+  { dealId: '500006-01T', companyId: '300006-66', dealDate: '2026-07-11', dealSize: { amount: 120000000, currency: 'GBP' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series D', dealSynopsis: 'The company raised £120M in a Series D round to build its first pilot fusion plant.' },
+  { dealId: '500007-01T', companyId: '300007-77', dealDate: '2026-07-11', dealSize: { amount: 60000000, currency: 'USD' }, dealType1: { code: 'Corp', description: 'Corporate' }, vcRound: null, dealSynopsis: 'The company closed $60M in project financing for a new 100MWh battery storage facility.' },
+  { dealId: '500008-01T', companyId: '300008-88', dealDate: '2026-07-11', dealSize: { amount: 22000000, currency: 'USD' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised $22M in a Series A round led by Third Rock Ventures.' },
+
+  { dealId: '500009-01T', companyId: '300009-99', dealDate: '2026-07-12', dealSize: { amount: 9500000, currency: 'USD' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised $9.5M in a Series A round led by Bunge Ventures.' },
+  { dealId: '500010-01T', companyId: '300010-10', dealDate: '2026-07-12', dealSize: { amount: 15000000, currency: 'EUR' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised €15M in a Series A round to expand its DER platform across the EU.' },
+  { dealId: '500011-01T', companyId: '300011-20', dealDate: '2026-07-12', dealSize: { amount: 30000000, currency: 'EUR' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series B', dealSynopsis: 'The company raised €30M in a Series B round to expand its charging network.' },
+  { dealId: '500012-01T', companyId: '300012-30', dealDate: '2026-07-12', dealSize: { amount: 50000000, currency: 'USD' }, dealType1: { code: 'Debt', description: 'Debt - General' }, vcRound: null, dealSynopsis: 'The company secured a $50M credit facility to expand its solar leasing portfolio.' },
+
+  { dealId: '500013-01T', companyId: '300013-40', dealDate: '2026-07-13', dealSize: { amount: 27000000, currency: 'USD' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised $27M in a Series A round to deploy its modular CCUS units.' },
+  { dealId: '500014-01T', companyId: '300014-50', dealDate: '2026-07-13', dealSize: { amount: 33000000, currency: 'EUR' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series B', dealSynopsis: 'The company raised €33M in a Series B round to scale bifacial panel manufacturing.' },
+  { dealId: '500015-01T', companyId: '300015-60', dealDate: '2026-07-13', dealSize: { amount: 80000000, currency: 'EUR' }, dealType1: { code: 'Corp', description: 'Corporate' }, vcRound: null, dealSynopsis: 'The company closed €80M in project financing for a new offshore wind farm.' },
+  { dealId: '500016-01T', companyId: '300016-70', dealDate: '2026-07-13', dealSize: { amount: 19000000, currency: 'USD' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised $19M in a Series A round to expand geothermal drilling operations.' },
+
+  { dealId: '500017-01T', companyId: '300017-80', dealDate: '2026-07-14', dealSize: { amount: 25000000, currency: 'USD' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series B', dealSynopsis: 'The company raised $25M in a Series B round to expand robotics manufacturing.' },
+  { dealId: '500018-01T', companyId: '300018-90', dealDate: '2026-07-14', dealSize: { amount: 55000000, currency: 'GBP' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series C', dealSynopsis: 'The company raised £55M in a Series C round to advance its SMR design certification.' },
+  { dealId: '500019-01T', companyId: '300019-00', dealDate: '2026-07-14', dealSize: { amount: 8000000, currency: 'USD' }, dealType1: { code: 'EVC', description: 'Early Stage VC' }, vcRound: 'Series A', dealSynopsis: 'The company raised $8M in a Series A round to scale its biorefinery operations.' },
+  { dealId: '500020-01T', companyId: '300020-01', dealDate: '2026-07-14', dealSize: { amount: 200000000, currency: 'EUR' }, dealType1: { code: 'LVC', description: 'Later Stage VC' }, vcRound: 'Series D', dealSynopsis: 'The company raised €200M in a Series D round to expand data center capacity.' },
 ];
 
 // ---------------------------------------------------------------------------
